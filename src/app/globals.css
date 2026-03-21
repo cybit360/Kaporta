@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Brand Colors */
+  --color-deep-blue: #002F5D;
+  --color-deep-blue-light: #003d7a;
+  --color-deep-blue-dark: #001f3d;
+  --color-construction-yellow: #F5A623;
+  --color-construction-yellow-light: #f7b84d;
+  --color-construction-yellow-dark: #d4900e;
+  --color-forest-green: #27AE60;
+  --color-forest-green-light: #2ecc71;
+  --color-forest-green-dark: #1e8449;
+  --color-charcoal: #1A1A2E;
+  --color-concrete-gray: #6E6E6E;
+  --color-soft-white: #FAFAFA;
+  --color-warm-gray: #F5F5F0;
+
+  /* Font Families */
+  --font-heading: var(--font-poppins), system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
+
+  /* Animations */
+  --animate-fade-in: fade-in 0.6s ease-out forwards;
+  --animate-slide-up: slide-up 0.6s ease-out forwards;
+  --animate-slide-in-right: slide-in-right 0.6s ease-out forwards;
+  --animate-count-up: count-up 2s ease-out forwards;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Base Styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #FFFFFF;
+  color: #1A1A2E;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Skip Link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-deep-blue);
+  color: white;
+  padding: 8px 16px;
+  z-index: 100;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Card Hover Effect */
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 47, 93, 0.12);
+}
+
+/* Hero Gradient */
+.hero-gradient {
+  background: linear-gradient(135deg, #002F5D 0%, #1A1A2E 50%, #002F5D 100%);
+}
+
+/* Section Divider */
+.section-divider {
+  height: 4px;
+  background: linear-gradient(90deg, #F5A623, #27AE60, #002F5D);
+}
+
+/* Focus Styles for Accessibility */
+*:focus-visible {
+  outline: 3px solid #F5A623;
+  outline-offset: 2px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F5F0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6E6E6E;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #002F5D;
+}
