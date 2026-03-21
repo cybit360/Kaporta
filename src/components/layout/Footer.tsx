@@ -18,9 +18,9 @@ export function Footer() {
                 <Image
                   src="/images/kaporta-logo.svg"
                   alt="Kaporta Investment Sierra Leone Limited"
-                  width={180}
-                  height={70}
-                  className="h-16 w-auto brightness-0 invert"
+                  width={240}
+                  height={90}
+                  className="h-20 w-auto brightness-0 invert"
                 />
               </Link>
             </div>

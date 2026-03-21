@@ -35,15 +35,15 @@ export function Header() {
 
       {/* Main navigation */}
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+        <div className="flex items-center justify-between h-20 lg:h-24">
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image
               src="/images/kaporta-logo.svg"
               alt="Kaporta Investment Sierra Leone Limited"
-              width={160}
-              height={60}
-              className="h-12 lg:h-14 w-auto"
+              width={220}
+              height={80}
+              className="h-16 lg:h-20 w-auto"
               priority
             />
           </Link>

@@ -708,13 +708,24 @@ Add all website files to git and push to GitHub:
 - Push to origin/main at https://github.com/cybit360/Kaporta.git
 ```
 
+### Update #3: Enlarge Logo & Push Suggested Prompts (March 2026)
+**Status:** Completed
+```
+Make the Kaporta logo larger in both Header and Footer:
+- Header: Increase nav height to h-20/lg:h-24, logo to h-16/lg:h-20 (width 220, height 80)
+- Footer: Increase logo to h-20 (width 240, height 90)
+- Push updated kaporta-prompts.md with all Section 18 suggested prompts to GitHub
+- Note: Vercel is already integrated with GitHub — auto-deploys on push to main
+```
+
 ---
 
 ## 18. Suggested Next Prompts
 
-These are recommended prompts to run next to enhance the website:
+These are recommended prompts to run next to enhance the website. Since Vercel is already integrated with GitHub, every push to `main` auto-deploys.
 
-### Replace Placeholder Images
+### 18.1 Replace Placeholder Images
+**Priority:** High
 ```
 Replace all gradient placeholder images across the Kaporta Group website with real photos:
 - Homepage hero: Construction site or quarry photo
@@ -726,7 +737,8 @@ Store images in public/images/ with subfolders: /hero, /services, /projects, /te
 Use Next.js Image component with blur placeholder data URLs for loading states.
 ```
 
-### Add Google Maps Embed
+### 18.2 Add Google Maps Embed
+**Priority:** High
 ```
 Replace the map placeholder on the Contact page with a real Google Maps embed:
 - Embed iframe showing Benguema Firing Range, Waterloo, Freetown, Sierra Leone
@@ -735,7 +747,8 @@ Replace the map placeholder on the Contact page with a real Google Maps embed:
 - Consider using @vis.gl/react-google-maps for interactive features
 ```
 
-### Add Floating WhatsApp Button
+### 18.3 Add Floating WhatsApp Button
+**Priority:** High
 ```
 Add a floating WhatsApp chat button visible on all pages:
 - Fixed position bottom-right corner
@@ -746,7 +759,8 @@ Add a floating WhatsApp chat button visible on all pages:
 - Add to root layout so it appears on every page
 ```
 
-### Connect Forms to Backend
+### 18.4 Connect Forms to Backend
+**Priority:** Medium
 ```
 Set up form handling for Kaporta Group website forms:
 - Contact form → send to kaportaq1@gmail.com via Resend or Nodemailer
@@ -758,13 +772,75 @@ Set up form handling for Kaporta Group website forms:
 - Success/error toast notifications
 ```
 
-### Deploy to Vercel
+### 18.5 Vercel Configuration (Already Auto-Deploying)
+**Priority:** Low — Vercel is already connected to GitHub and auto-deploys on push to main.
 ```
-Deploy the Kaporta Group website to Vercel:
-- Connect GitHub repository (cybit360/Kaporta)
-- Set up environment variables if needed
-- Configure custom domain
-- Enable Vercel Analytics
-- Set up preview deployments for branches
-- Test all pages and forms post-deployment
+Fine-tune Vercel deployment settings for Kaporta Group:
+- Configure custom domain (kaportagroup.com or kaporta.sl)
+- Set up environment variables for API keys (Google Maps, email service)
+- Enable Vercel Analytics and Web Vitals monitoring
+- Configure redirects and security headers
+- Review preview deployments for feature branches
+- Test all pages and forms on production URL
+```
+
+### 18.6 Scroll Animations & Micro-interactions
+**Priority:** Medium
+```
+Add smooth scroll-triggered animations to the Kaporta Group website:
+- Fade-in on scroll for section headings and cards using Intersection Observer
+- Stagger animation for grid items (services, projects, team cards)
+- Counter animation for homepage stat numbers (15+ Years, 100+ Projects, etc.)
+- Card hover lift and shadow depth animations
+- Mobile nav slide-in animation
+- Keep animations subtle and professional — construction industry feel
+```
+
+### 18.7 Structured Data & Advanced SEO
+**Priority:** Medium
+```
+Add JSON-LD structured data to Kaporta Group for better search visibility:
+- LocalBusiness schema on homepage (name, address, phone, hours, geo coordinates for Benguema, Waterloo)
+- Service schema for each of the 6 service pages
+- Project/CreativeWork schema for case studies
+- BreadcrumbList for navigation hierarchy
+- Organization schema with logo and social profile links
+- Generate dynamic sitemap.xml and robots.txt
+```
+
+### 18.8 Dark Mode Support
+**Priority:** Low
+```
+Add dark mode toggle to Kaporta Group:
+- System preference detection with manual override
+- Toggle button in header utility bar
+- Adjusted color scheme: charcoal bg, lighter text, adjusted card backgrounds
+- Construction yellow and forest green accents remain consistent
+- Persist preference in localStorage
+- Smooth transition between modes
+```
+
+### 18.9 Multi-language Support (English / Krio / French)
+**Priority:** Low
+```
+Add internationalization to Kaporta Group:
+- Languages: English (default), Krio, French
+- next-intl setup with App Router
+- Language switcher dropdown in header utility bar
+- Translated navigation, service names, CTAs, and key page content
+- Language detection from browser preferences
+- SEO: hreflang tags for each language variant
+```
+
+### 18.10 Client Portal (Phase 2)
+**Priority:** Future
+```
+Build a client portal for project tracking:
+- Login/authentication system (NextAuth.js)
+- Project dashboard with status updates and milestones
+- Document sharing (invoices, reports, drawings)
+- Progress photos timeline
+- Communication thread with project team
+- Payment history and invoice management
+- Role-based access (admin, client, project manager)
 ```
