@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Phone, Mail, MapPin, Clock, Facebook, Linkedin, MessageCircle } from 'lucide-react';
 import { footerLinks } from '@/data/navigation';
 
@@ -12,14 +13,16 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Company Info */}
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-construction-yellow rounded-lg flex items-center justify-center">
-                <span className="font-heading text-deep-blue font-bold text-xl">K</span>
-              </div>
-              <div>
-                <div className="font-heading font-bold text-lg leading-tight">Kaporta Group</div>
-                <div className="text-gray-400 text-xs">Investment Sierra Leone Limited</div>
-              </div>
+            <div className="mb-4">
+              <Link href="/">
+                <Image
+                  src="/images/kaporta-logo.svg"
+                  alt="Kaporta Investment Sierra Leone Limited"
+                  width={180}
+                  height={70}
+                  className="h-16 w-auto brightness-0 invert"
+                />
+              </Link>
             </div>
             <p className="text-gray-300 text-sm leading-relaxed mb-6 max-w-sm">
               Building Sierra Leone&apos;s future since 2008. Your trusted partner in construction, logistics, and infrastructure development across West Africa.

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Menu, X, ChevronDown, Phone, Mail } from 'lucide-react';
 import { navigation } from '@/data/navigation';
 
@@ -36,14 +37,15 @@ export function Header() {
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-construction-yellow rounded-lg flex items-center justify-center">
-              <span className="font-heading text-deep-blue font-bold text-xl">K</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-heading font-bold text-deep-blue text-lg leading-tight">Kaporta</span>
-              <span className="text-concrete-gray text-xs leading-tight">Group</span>
-            </div>
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/images/kaporta-logo.svg"
+              alt="Kaporta Investment Sierra Leone Limited"
+              width={160}
+              height={60}
+              className="h-12 lg:h-14 w-auto"
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation */}

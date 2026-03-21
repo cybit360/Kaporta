@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" fill="none">
+  <!-- Mountains -->
+  <polygon points="260,40 370,200 150,200" fill="#1A1A2E"/>
+  <polygon points="200,80 320,200 80,200" fill="#333"/>
+  <polygon points="160,100 250,200 70,200" fill="#1A1A2E"/>
+
+  <!-- Yellow accent on mountain -->
+  <polygon points="200,80 260,160 140,160" fill="#F5A623" opacity="0.9"/>
+
+  <!-- Excavator body -->
+  <rect x="100" y="140" width="80" height="50" rx="5" fill="#1A1A2E"/>
+  <rect x="110" y="145" width="25" height="20" rx="3" fill="#F5A623"/>
+
+  <!-- Excavator arm -->
+  <line x1="140" y1="140" x2="80" y2="90" stroke="#1A1A2E" stroke-width="10" stroke-linecap="round"/>
+  <line x1="80" y1="90" x2="50" y2="130" stroke="#1A1A2E" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- Bucket -->
+  <path d="M40,125 L50,130 L55,145 L35,145 Z" fill="#1A1A2E"/>
+  <circle cx="42" cy="150" r="4" fill="#1A1A2E"/>
+  <circle cx="50" cy="152" r="4" fill="#1A1A2E"/>
+
+  <!-- Tracks -->
+  <rect x="95" y="190" width="90" height="15" rx="7" fill="#1A1A2E"/>
+
+  <!-- Horizontal line -->
+  <line x1="30" y1="220" x2="370" y2="220" stroke="#1A1A2E" stroke-width="3"/>
+
+  <!-- KAPORTA text -->
+  <text x="200" y="265" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="52" fill="#1A1A2E" text-anchor="middle" letter-spacing="6">KAPORTA</text>
+
+  <!-- INVESTMENTS LLTD. text -->
+  <text x="200" y="295" font-family="Arial, sans-serif" font-weight="400" font-size="16" fill="#1A1A2E" text-anchor="middle" letter-spacing="8">INVESTMENTS LLTD.</text>
+</svg>
