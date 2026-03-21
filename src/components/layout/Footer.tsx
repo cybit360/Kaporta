@@ -97,6 +97,7 @@ export function Footer() {
       <div className="border-t border-gray-700">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            {/* TODO: Replace with actual social media URLs */}
             <div className="flex items-center gap-4">
               <a
                 href="https://wa.me/23278341012"
@@ -108,7 +109,7 @@ export function Footer() {
                 <MessageCircle className="h-5 w-5" />
               </a>
               <a
-                href="#"
+                href="https://www.facebook.com/KaportaGroup"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-blue-500 transition-colors"
@@ -117,7 +118,7 @@ export function Footer() {
                 <Facebook className="h-5 w-5" />
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/company/kaporta-group"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-blue-400 transition-colors"

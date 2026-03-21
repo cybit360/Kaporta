@@ -1,14 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X, ChevronDown, Phone, Mail } from 'lucide-react';
+import { Menu, X, ChevronDown, Phone, Mail, Search } from 'lucide-react';
 import { navigation } from '@/data/navigation';
+import { SearchModal } from '@/components/search/SearchModal';
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  // Cmd/Ctrl+K keyboard shortcut
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setSearchOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
@@ -83,8 +97,16 @@ export function Header() {
             ))}
           </div>
 
-          {/* CTA Button */}
+          {/* Search + CTA Button */}
           <div className="hidden lg:flex items-center gap-3">
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="inline-flex items-center gap-2 px-3 py-2 text-sm text-concrete-gray bg-soft-white border border-gray-200 rounded-lg hover:border-deep-blue/30 hover:text-deep-blue transition-colors"
+              aria-label="Search site (Ctrl+K)"
+            >
+              <Search className="h-4 w-4" />
+              <span className="text-xs text-concrete-gray/70">Ctrl+K</span>
+            </button>
             <Link
               href="/quote"
               className="inline-flex items-center px-5 py-2.5 bg-construction-yellow text-deep-blue font-heading font-semibold text-sm rounded-lg hover:bg-construction-yellow-dark transition-colors"
@@ -163,6 +185,9 @@ export function Header() {
           </div>
         )}
       </nav>
+
+      {/* Search Modal */}
+      <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   );
 }
