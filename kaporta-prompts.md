@@ -675,3 +675,96 @@ Update Kaporta Group contact details:
 3. Contact page: src/app/contact/page.tsx (sidebar)
 4. CLAUDE.md in .claude folder (reference)
 ```
+
+---
+
+## 17. Post-Build Updates & Change Log
+
+All prompts executed after the initial website build are tracked here chronologically.
+
+### Update #1: Logo Integration (March 2026)
+**Status:** Completed
+```
+Replace the placeholder "K" logo with the actual Kaporta Group logo on the website:
+- Save the Kaporta company logo (excavator + mountains + "KAPORTA INVESTMENTS LLTD." text) as SVG at public/images/kaporta-logo.svg
+- Update Header component (src/components/layout/Header.tsx):
+  - Import Next.js Image component
+  - Replace the yellow "K" box + text with <Image> tag referencing the logo
+  - Set priority loading, responsive sizing (h-12 mobile, h-14 desktop)
+- Update Footer component (src/components/layout/Footer.tsx):
+  - Import Next.js Image component
+  - Replace the yellow "K" box + text with <Image> tag
+  - Apply brightness-0 invert CSS filter for white logo on dark background
+- Ensure alt text: "Kaporta Investment Sierra Leone Limited"
+- Verify build compiles successfully
+```
+
+### Update #2: Git Push All Updates (March 2026)
+**Status:** Completed
+```
+Add all website files to git and push to GitHub:
+- Stage all new and modified files
+- Commit with descriptive message covering the full website build
+- Push to origin/main at https://github.com/cybit360/Kaporta.git
+```
+
+---
+
+## 18. Suggested Next Prompts
+
+These are recommended prompts to run next to enhance the website:
+
+### Replace Placeholder Images
+```
+Replace all gradient placeholder images across the Kaporta Group website with real photos:
+- Homepage hero: Construction site or quarry photo
+- Service cards: Relevant photos for each of 6 services
+- Project cards: Actual project completion photos
+- Team member photos: Professional headshots
+- Blog post images: Relevant industry photos
+Store images in public/images/ with subfolders: /hero, /services, /projects, /team, /blog
+Use Next.js Image component with blur placeholder data URLs for loading states.
+```
+
+### Add Google Maps Embed
+```
+Replace the map placeholder on the Contact page with a real Google Maps embed:
+- Embed iframe showing Benguema Firing Range, Waterloo, Freetown, Sierra Leone
+- Responsive sizing
+- Add a "Get Directions" link below the map
+- Consider using @vis.gl/react-google-maps for interactive features
+```
+
+### Add Floating WhatsApp Button
+```
+Add a floating WhatsApp chat button visible on all pages:
+- Fixed position bottom-right corner
+- Green WhatsApp icon with pulse animation
+- Opens https://wa.me/23278341012 with predefined message
+- Show tooltip on hover: "Chat with us on WhatsApp"
+- Hide on scroll down, show on scroll up (optional)
+- Add to root layout so it appears on every page
+```
+
+### Connect Forms to Backend
+```
+Set up form handling for Kaporta Group website forms:
+- Contact form → send to kaportaq1@gmail.com via Resend or Nodemailer
+- Quote request form → send to kaportaq1@gmail.com with file attachments
+- Create API routes at /api/contact and /api/quote
+- Add form validation with Zod
+- Rate limiting to prevent spam
+- Add honeypot field for bot detection
+- Success/error toast notifications
+```
+
+### Deploy to Vercel
+```
+Deploy the Kaporta Group website to Vercel:
+- Connect GitHub repository (cybit360/Kaporta)
+- Set up environment variables if needed
+- Configure custom domain
+- Enable Vercel Analytics
+- Set up preview deployments for branches
+- Test all pages and forms post-deployment
+```
