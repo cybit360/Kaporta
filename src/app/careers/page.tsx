@@ -65,7 +65,7 @@ export default function CareersPage() {
                   <p className="text-concrete-gray text-sm mt-2">{job.description}</p>
                 </div>
                 <Link
-                  href="/contact"
+                  href={`/careers/apply?position=${encodeURIComponent(job.title)}`}
                   className="inline-flex items-center gap-2 px-5 py-2.5 bg-forest-green text-white font-heading font-semibold text-sm rounded-lg hover:bg-forest-green-dark transition-colors whitespace-nowrap"
                 >
                   Apply Now <ArrowRight className="h-4 w-4" />
@@ -98,7 +98,7 @@ export default function CareersPage() {
                     </div>
                   </div>
                   <Link
-                    href="/contact"
+                    href={`/careers/apply?position=${encodeURIComponent(job.title)}`}
                     className="inline-flex items-center gap-2 px-5 py-2.5 bg-construction-yellow text-deep-blue font-heading font-semibold text-sm rounded-lg hover:bg-construction-yellow-dark transition-colors whitespace-nowrap"
                   >
                     Apply <ArrowRight className="h-4 w-4" />

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, Mail, MapPin, Clock, Facebook, Linkedin, MessageCircle } from 'lucide-react';
 import { footerLinks } from '@/data/navigation';
+import { NewsletterForm } from '@/components/ui/NewsletterForm';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -89,6 +90,23 @@ export function Footer() {
                 </li>
               ))}
             </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Newsletter Section */}
+      <div className="border-t border-gray-700">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="max-w-sm">
+              <h3 className="font-heading font-semibold text-white text-base mb-1">Stay Updated</h3>
+              <p className="text-sm text-gray-400">
+                Get the latest news on our projects, services, and industry insights.
+              </p>
+            </div>
+            <div className="w-full md:w-auto md:min-w-[360px]">
+              <NewsletterForm variant="dark" />
+            </div>
           </div>
         </div>
       </div>

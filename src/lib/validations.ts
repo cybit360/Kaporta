@@ -16,6 +16,7 @@ export const contactFormSchema = z.object({
 });
 
 export type ContactFormData = z.infer<typeof contactFormSchema>;
+export type ContactFormInput = z.input<typeof contactFormSchema>;
 
 // ---------------------------------------------------------------------------
 // Quote / RFQ Form
@@ -24,17 +25,19 @@ export const quoteFormSchema = z.object({
   name: z.string().min(1, "Name is required").max(200),
   email: z.string().email("A valid email address is required"),
   phone: z.string().min(1, "Phone number is required").max(30),
-  company: z.string().min(1, "Company name is required").max(200),
+  company: z.string().max(200).optional().default(""),
   serviceType: z.string().max(200).optional().default(""),
   projectDescription: z
     .string()
     .min(20, "Project description must be at least 20 characters")
     .max(10000),
   budgetRange: z.string().max(100).optional().default(""),
+  location: z.string().max(200).optional().default(""),
   timeline: z.string().max(200).optional().default(""),
 });
 
 export type QuoteFormData = z.infer<typeof quoteFormSchema>;
+export type QuoteFormInput = z.input<typeof quoteFormSchema>;
 
 // ---------------------------------------------------------------------------
 // Newsletter Signup

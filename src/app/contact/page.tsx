@@ -1,14 +1,83 @@
 'use client';
 
 import { useState } from 'react';
-import { Phone, Mail, MapPin, Clock, MessageCircle, Facebook, Linkedin, Send, CheckCircle2 } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { contactFormSchema, type ContactFormInput } from '@/lib/validations';
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+  MessageCircle,
+  Facebook,
+  Linkedin,
+  Send,
+  CheckCircle2,
+  AlertCircle,
+  Loader2,
+} from 'lucide-react';
 
 export default function ContactPage() {
-  const [submitted, setSubmitted] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [serverError, setServerError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<ContactFormInput>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      phone: '',
+      organization: '',
+      serviceInterest: '',
+      message: '',
+    },
+  });
+
+  const onSubmit = async (data: ContactFormInput) => {
+    setServerError('');
+    setSubmitStatus('idle');
+
+    // Check honeypot
+    const honeypotField = document.querySelector<HTMLInputElement>('input[name="website"]');
+    if (honeypotField && honeypotField.value) {
+      // Bot detected, fake success
+      setSubmitStatus('success');
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        if (res.status === 429) {
+          setServerError('Too many requests. Please wait a few minutes and try again.');
+        } else if (result.error) {
+          setServerError(result.error);
+        } else {
+          setServerError('Something went wrong. Please try again.');
+        }
+        setSubmitStatus('error');
+        return;
+      }
+
+      setSubmitStatus('success');
+      reset();
+    } catch {
+      setServerError('Network error. Please check your connection and try again.');
+      setSubmitStatus('error');
+    }
   };
 
   return (
@@ -97,55 +166,142 @@ export default function ContactPage() {
 
             {/* Contact Form */}
             <div className="lg:col-span-2">
-              {submitted ? (
+              {submitStatus === 'success' ? (
                 <div className="flex flex-col items-center justify-center h-full text-center py-16">
                   <CheckCircle2 className="h-16 w-16 text-forest-green mb-6" />
                   <h2 className="font-heading text-3xl font-bold text-deep-blue mb-4">Message Sent!</h2>
                   <p className="text-concrete-gray text-lg">Thank you for contacting us. We&apos;ll get back to you within 1–2 business days.</p>
+                  <button
+                    type="button"
+                    onClick={() => setSubmitStatus('idle')}
+                    className="mt-6 text-deep-blue underline hover:text-construction-yellow transition-colors"
+                  >
+                    Send another message
+                  </button>
                 </div>
               ) : (
                 <div className="bg-soft-white p-8 rounded-2xl">
                   <h2 className="font-heading text-2xl font-bold text-deep-blue mb-6">Send Us a Message</h2>
-                  <form onSubmit={handleSubmit} className="space-y-5">
+
+                  {submitStatus === 'error' && serverError && (
+                    <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3" role="alert">
+                      <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
+                      <p className="text-red-700 text-sm">{serverError}</p>
+                    </div>
+                  )}
+
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+                    {/* Honeypot - hidden from humans */}
+                    <div className="absolute -left-[9999px]" aria-hidden="true">
+                      <label htmlFor="website">Leave this empty</label>
+                      <input type="text" id="website" name="website" tabIndex={-1} autoComplete="off" />
+                    </div>
+
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <div>
                         <label htmlFor="name" className="block text-sm font-medium text-charcoal mb-2">Full Name *</label>
-                        <input type="text" id="name" name="name" required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-construction-yellow focus:ring-2 focus:ring-construction-yellow/20 outline-none transition-colors bg-white" placeholder="Your full name" />
+                        <input
+                          type="text"
+                          id="name"
+                          {...register('name')}
+                          aria-describedby={errors.name ? 'name-error' : undefined}
+                          aria-invalid={errors.name ? 'true' : 'false'}
+                          className={`w-full px-4 py-3 rounded-lg border ${errors.name ? 'border-red-400' : 'border-gray-300'} focus:border-construction-yellow focus:ring-2 focus:ring-construction-yellow/20 outline-none transition-colors bg-white`}
+                          placeholder="Your full name"
+                        />
+                        {errors.name && (
+                          <p id="name-error" className="mt-1 text-sm text-red-600" role="alert">{errors.name.message}</p>
+                        )}
                       </div>
                       <div>
                         <label htmlFor="contactEmail" className="block text-sm font-medium text-charcoal mb-2">Email *</label>
-                        <input type="email" id="contactEmail" name="email" required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-construction-yellow focus:ring-2 focus:ring-construction-yellow/20 outline-none transition-colors bg-white" placeholder="your@email.com" />
+                        <input
+                          type="email"
+                          id="contactEmail"
+                          {...register('email')}
+                          aria-describedby={errors.email ? 'email-error' : undefined}
+                          aria-invalid={errors.email ? 'true' : 'false'}
+                          className={`w-full px-4 py-3 rounded-lg border ${errors.email ? 'border-red-400' : 'border-gray-300'} focus:border-construction-yellow focus:ring-2 focus:ring-construction-yellow/20 outline-none transition-colors bg-white`}
+                          placeholder="your@email.com"
+                        />
+                        {errors.email && (
+                          <p id="email-error" className="mt-1 text-sm text-red-600" role="alert">{errors.email.message}</p>
+                        )}
                       </div>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <div>
                         <label htmlFor="contactPhone" className="block text-sm font-medium text-charcoal mb-2">Phone</label>
-                        <input type="tel" id="contactPhone" name="phone" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-construction-yellow focus:ring-2 focus:ring-construction-yellow/20 outline-none transition-colors bg-white" placeholder="+232 XX XXX XXX" />
+                        <input
+                          type="tel"
+                          id="contactPhone"
+                          {...register('phone')}
+                          aria-describedby={errors.phone ? 'phone-error' : undefined}
+                          aria-invalid={errors.phone ? 'true' : 'false'}
+                          className={`w-full px-4 py-3 rounded-lg border ${errors.phone ? 'border-red-400' : 'border-gray-300'} focus:border-construction-yellow focus:ring-2 focus:ring-construction-yellow/20 outline-none transition-colors bg-white`}
+                          placeholder="+232 XX XXX XXX"
+                        />
+                        {errors.phone && (
+                          <p id="phone-error" className="mt-1 text-sm text-red-600" role="alert">{errors.phone.message}</p>
+                        )}
                       </div>
                       <div>
                         <label htmlFor="organization" className="block text-sm font-medium text-charcoal mb-2">Company / Organization</label>
-                        <input type="text" id="organization" name="organization" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-construction-yellow focus:ring-2 focus:ring-construction-yellow/20 outline-none transition-colors bg-white" placeholder="Your organization" />
+                        <input
+                          type="text"
+                          id="organization"
+                          {...register('organization')}
+                          className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-construction-yellow focus:ring-2 focus:ring-construction-yellow/20 outline-none transition-colors bg-white"
+                          placeholder="Your organization"
+                        />
                       </div>
                     </div>
                     <div>
                       <label htmlFor="serviceInterest" className="block text-sm font-medium text-charcoal mb-2">Service Interested In</label>
-                      <select id="serviceInterest" name="serviceInterest" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-construction-yellow focus:ring-2 focus:ring-construction-yellow/20 outline-none transition-colors bg-white">
+                      <select
+                        id="serviceInterest"
+                        {...register('serviceInterest')}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-construction-yellow focus:ring-2 focus:ring-construction-yellow/20 outline-none transition-colors bg-white"
+                      >
                         <option value="">Select a service</option>
-                        <option value="quarrying">Quarrying & Mining</option>
+                        <option value="quarrying">Quarrying &amp; Mining</option>
                         <option value="concrete">Concrete Production</option>
-                        <option value="haulage">Haulage & Logistics</option>
-                        <option value="civil">Civil Engineering & Construction</option>
-                        <option value="power">Power & Energy Solutions</option>
+                        <option value="haulage">Haulage &amp; Logistics</option>
+                        <option value="civil">Civil Engineering &amp; Construction</option>
+                        <option value="power">Power &amp; Energy Solutions</option>
                         <option value="equipment">Equipment Rental</option>
                         <option value="general">General Inquiry</option>
                       </select>
                     </div>
                     <div>
                       <label htmlFor="message" className="block text-sm font-medium text-charcoal mb-2">Message *</label>
-                      <textarea id="message" name="message" required rows={5} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-construction-yellow focus:ring-2 focus:ring-construction-yellow/20 outline-none transition-colors bg-white resize-y" placeholder="How can we help you?" />
+                      <textarea
+                        id="message"
+                        {...register('message')}
+                        rows={5}
+                        aria-describedby={errors.message ? 'message-error' : undefined}
+                        aria-invalid={errors.message ? 'true' : 'false'}
+                        className={`w-full px-4 py-3 rounded-lg border ${errors.message ? 'border-red-400' : 'border-gray-300'} focus:border-construction-yellow focus:ring-2 focus:ring-construction-yellow/20 outline-none transition-colors bg-white resize-y`}
+                        placeholder="How can we help you?"
+                      />
+                      {errors.message && (
+                        <p id="message-error" className="mt-1 text-sm text-red-600" role="alert">{errors.message.message}</p>
+                      )}
                     </div>
-                    <button type="submit" className="inline-flex items-center gap-2 px-8 py-4 bg-construction-yellow text-deep-blue font-heading font-bold rounded-lg hover:bg-construction-yellow-dark transition-colors">
-                      <Send className="h-5 w-5" /> Send Message
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="inline-flex items-center gap-2 px-8 py-4 bg-construction-yellow text-deep-blue font-heading font-bold rounded-lg hover:bg-construction-yellow-dark transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="h-5 w-5 animate-spin" /> Sending...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="h-5 w-5" /> Send Message
+                        </>
+                      )}
                     </button>
                   </form>
                 </div>
